@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode, useState } from 'react'
 import { ROUTING_MOCK } from '../../mock/routing.mock'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 interface LayoutProps {
   children: ReactNode
@@ -9,6 +9,7 @@ interface LayoutProps {
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [show, setShow] = useState(false)
   const [profile, setProfile] = useState(false)
+  const { pathname } = useLocation()
 
   return (
     <>
@@ -31,22 +32,27 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 </svg>
               </div>
               <ul className="mt-12">
-                {ROUTING_MOCK.map((data) => (
-                  <Link
-                    to={data.href}
-                    className="flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6"
-                    key={data.name}
-                  >
-                    <div className="flex items-center">
-                      <span className="text-sm">{data.name}</span>
-                    </div>
-                    {data?.notificationCount && (
-                      <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
-                        {data?.notificationCount}
+                {ROUTING_MOCK.map((data) => {
+                  const isActive = pathname === data.href
+
+                  return (
+                    <Link
+                      to={data.href}
+                      // TODO: finir le isActive
+                      className={`flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6 ${isActive}`}
+                      key={data.name}
+                    >
+                      <div className="flex items-center">
+                        <span className="text-sm">{data.name}</span>
                       </div>
-                    )}
-                  </Link>
-                ))}
+                      {data?.notificationCount && (
+                        <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
+                          {data?.notificationCount}
+                        </div>
+                      )}
+                    </Link>
+                  )
+                })}
               </ul>
             </div>
           </div>
@@ -105,64 +111,30 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   </div>
                   <div className="px-8">
                     <ul className="mt-12">
-                      <li className="flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Dashboard
-                          </span>
-                        </div>
-                        <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
-                          5
-                        </div>
-                      </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Products
-                          </span>
-                        </div>
-                        <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
-                          8
-                        </div>
-                      </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Performance
-                          </span>
-                        </div>
-                      </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Deliverables
-                          </span>
-                        </div>
-                      </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Invoices
-                          </span>
-                        </div>
-                        <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
-                          25
-                        </div>
-                      </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Inventory
-                          </span>
-                        </div>
-                      </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Settings
-                          </span>
-                        </div>
-                      </li>
+                      {ROUTING_MOCK.map((data) => {
+                        const isActive = pathname === data.href
+
+                        if (!isActive) {
+                          return (
+                            <Link
+                              to={data.href}
+                              className="flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6"
+                              key={data.name}
+                            >
+                              <div className="flex items-center">
+                                <span className="xl:text-base md:text-2xl text-base ml-2">
+                                  {data.name}
+                                </span>
+                              </div>
+                              {data?.notificationCount && (
+                                <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
+                                  {data?.notificationCount}
+                                </div>
+                              )}
+                            </Link>
+                          )
+                        }
+                      })}
                     </ul>
                   </div>
                 </div>

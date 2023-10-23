@@ -1,17 +1,13 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
-import Layout from './components/Layout/Layout'
-import HomePage from './components/pages/HomePage'
-import LoginPage from './components/pages/LoginPage'
+import AuthProvider from './context/Auth/AuthProvider'
+import App from './App'
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
-    <Layout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-      </Routes>
-    </Layout>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </BrowserRouter>
 )
