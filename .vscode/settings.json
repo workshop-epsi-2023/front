@@ -2,10 +2,10 @@
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

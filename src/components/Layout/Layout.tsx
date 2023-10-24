@@ -1,22 +1,35 @@
-import { FunctionComponent, ReactNode, useState } from 'react'
+import {
+  Component,
+  FunctionComponent,
+  ReactNode,
+  createElement,
+  useEffect,
+  useState
+} from 'react'
 import { ROUTING_MOCK } from '../../mock/routing.mock'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { RESTAURANT_MOCK } from '../../mock/restaurants.mock'
 
 interface LayoutProps {
-  children: ReactNode
+  children: any
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+  const [searchValue, setSearchValue] = useState('')
   const [show, setShow] = useState(false)
   const [profile, setProfile] = useState(false)
   const { pathname } = useLocation()
+
+  const search = (e: any) => {
+    setSearchValue(e.target.value)
+  }
 
   return (
     <>
       <div className="w-full h-full">
         <div className="flex flex-no-wrap">
           {/* Sidebar starts */}
-          <div className="w-64 absolute lg:relative bg-white shadow h-screen flex-col justify-between hidden lg:flex pb-12">
+          <div className="w-full md:w-96 absolute lg:relative bg-white shadow h-screen flex-col justify-between hidden lg:flex pb-12">
             <div className="px-8">
               <div className="h-16 w-full flex items-center">
                 <svg
@@ -69,7 +82,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
               className="bg-gray-800 opacity-50 w-full h-full absolute"
               onClick={() => setShow(!show)}
             ></div>
-            <div className="w-64 md:w-96 absolute z-40 bg-white shadow h-full flex-col justify-between lg:hidden pb-4 transition duration-150 ease-in-out">
+            <div className="w-full md:w-96 absolute z-40 bg-white shadow h-full flex-col justify-between lg:hidden pb-4 transition duration-150 ease-in-out">
               <div className="flex flex-col justify-between h-full">
                 <div>
                   <div className="flex items-center justify-between px-8">
@@ -160,6 +173,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                         </svg>
                       </div>
                       <input
+                        onChange={search}
+                        value={searchValue}
                         className="bg-gray-100 focus:outline-none rounded w-full text-sm text-gray-500 bg-gray-100 pl-10 py-2"
                         type="text"
                         placeholder="Search"
@@ -179,24 +194,6 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                         </p>
                       </div>
                       <ul className="flex">
-                        <li className="cursor-pointer text-white pt-5 pb-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-messages"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            strokeWidth={1}
-                            stroke="#718096"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path stroke="none" d="M0 0h24v24H0z" />
-                            <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
-                            <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
-                          </svg>
-                        </li>
                         <li className="cursor-pointer text-white pt-5 pb-3 pl-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -249,6 +246,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                       </svg>
                     </div>
                     <input
+                      onChange={search}
+                      value={searchValue}
                       className="border border-gray-100 focus:outline-none focus:border-indigo-700 rounded w-full text-sm text-gray-500 bg-gray-100 pl-12 py-2"
                       type="text"
                       placeholder="Search"
@@ -278,30 +277,12 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                         <div className="w-2 h-2 rounded-full bg-red-400 border border-white absolute inset-0 mt-1 mr-1 m-auto" />
                       </div>
                     </div>
-                    <div className="h-full w-20 flex items-center justify-center border-r mr-4 cursor-pointer text-gray-600">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-messages"
-                        width={28}
-                        height={28}
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
-                        <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
-                      </svg>
-                    </div>
                     <div
                       className="flex items-center relative cursor-pointer"
                       onClick={() => setProfile(!profile)}
                     >
                       <div className="rounded-full">
-                        {profile ? (
+                        {profile && (
                           <ul className="p-2 w-full border-r bg-white absolute rounded left-0 shadow mt-12 sm:mt-16 ">
                             <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center">
                               <div className="flex items-center">
@@ -324,7 +305,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                                 <span className="text-sm ml-2">My Profile</span>
                               </div>
                             </li>
-                            <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mt-2">
+                            <Link
+                              to={'/logout'}
+                              className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mt-2"
+                            >
                               <div className="flex items-center">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -344,10 +328,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                                 </svg>
                                 <span className="text-sm ml-2">Sign out</span>
                               </div>
-                            </li>
+                            </Link>
                           </ul>
-                        ) : (
-                          ''
                         )}
                         <div className="relative">
                           <img
@@ -412,9 +394,82 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             </nav>
             {/* Navigation ends */}
             {/* Remove class [ h-64 ] when adding a card block */}
-            <div className="container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6">
-              {/* Place your content here */}
-              {children}
+            <div className="w-full overflow-y-scroll h-screen -mt-16">
+              <>
+                <>
+                  <div className="bg-gray-50 w-full p-2 mt-16">
+                    <div className="flex flex-col items-start justify-between px-4 lg:items-center lg:px-6 md:px-4 lg:flex-row md:flex-row md:items-center">
+                      <div className="flex flex-col">
+                        <p className="text-2xl font-semibold leading-normal text-gray-800">
+                          Dashboard
+                        </p>
+                        <div className="flex mt-3 gap-x-2">
+                          <p className="text-xs leading-3 text-indigo-700 cursor-pointer">
+                            Dashboard
+                          </p>
+                          <svg
+                            className="cursor-pointer"
+                            width={14}
+                            height={14}
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M4.10332 3.06284L8.04082 7.00034L4.10332 10.9378L5.03139 11.8659L9.89697 7.00034L5.03139 2.13477L4.10332 3.06284Z"
+                              fill="#4338CA"
+                            />
+                          </svg>
+                          <p className="text-xs leading-3 text-indigo-700 cursor-pointer">
+                            Restaurants
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr className="my-4 border-gray-300" />
+                    <div className="flex flex-col px-4 lg:px-6 md:px-4 gap-x-5 lg:flex-row md:flex-row gap-y-4">
+                      <div className="flex gap-x-1">
+                        <svg
+                          width={18}
+                          height={18}
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12.375 5.0625H16.3125V9"
+                            stroke="#4B5563"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M1.6875 12.9375L5.95441 8.67059C6.05888 8.56609 6.18291 8.4832 6.31942 8.42665C6.45593 8.3701 6.60224 8.34099 6.75 8.34099C6.89776 8.34099 7.04407 8.3701 7.18058 8.42665C7.31709 8.4832 7.44112 8.56609 7.54559 8.67059L9.32941 10.4544C9.43388 10.5589 9.55791 10.6418 9.69442 10.6984C9.83093 10.7549 9.97724 10.784 10.125 10.784C10.2728 10.784 10.4191 10.7549 10.5556 10.6984C10.6921 10.6418 10.8161 10.5589 10.9206 10.4544L15.75 5.625"
+                            stroke="#4B5563"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <p className="text-sm leading-none text-gray-600 mt-[1px]">
+                          {
+                            RESTAURANT_MOCK.filter((restaurant) => {
+                              return restaurant.name
+                                .toLowerCase()
+                                .includes(searchValue)
+                            }).length
+                          }{' '}
+                          Résultats
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+                <div className="container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6">
+                  {/* Place your content here */}
+                  <children.type searchValue={searchValue} />
+                </div>
+              </>
             </div>
           </div>
         </div>

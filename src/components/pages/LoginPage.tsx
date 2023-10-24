@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import { useAuthContext } from '../../context/Auth/AuthProvider'
+import WithoutAuthentication from '../../hoc/withoutAuthentication'
 
 interface LoginPageProps {}
 
@@ -46,7 +47,7 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
             >
               Dont have account?{' '}
               <a
-                href="javascript:void(0)"
+                href=""
                 className="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none text-gray-800 cursor-pointer"
               >
                 {' '}
@@ -202,4 +203,4 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
   )
 }
 
-export default LoginPage
+export default WithoutAuthentication(LoginPage)

@@ -8,9 +8,5 @@ export const ROUTING_MOCK: IROUTING_MOCK[] = [
   {
     name: 'Dashboard',
     href: '/'
-  },
-  {
-    name: 'Logout',
-    href: '/logout'
   }
 ]

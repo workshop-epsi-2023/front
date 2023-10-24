@@ -28,16 +28,20 @@ export const useAuthContext = () =>
   useUndefinedContext<AuthContextValue>(AuthContext)
 
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
-  const [isConnected, setIsConnected] = useState(false)
+  const [isConnected, setIsConnected] = useState(
+    !!localStorage.getItem('isConnected')
+  )
 
   const connect = ({ email, password }: ICredentials) => {
     if (email == 'admin' && password == 'admin') {
       setIsConnected(true)
+      localStorage.setItem('isConnected', 'true')
     }
   }
 
   const disconnect = () => {
     setIsConnected(false)
+    localStorage.removeItem('isConnected')
   }
 
   return (

@@ -1,34 +1,46 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, Suspense, createElement, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import Layout from './components/Layout/Layout'
-import LoginPage from './components/pages/LoginPage'
-import HomePage from './components/pages/HomePage'
-import { useAuthContext } from './context/Auth/AuthProvider'
-import LogoutPage from './components/pages/LogoutPage'
+import { RESTAURANT_MOCK } from './mock/restaurants.mock'
 
 interface AppProps {}
 
 const App: FunctionComponent<AppProps> = () => {
-  const { isConnected } = useAuthContext()
-
   return (
-    <>
-      {!isConnected && (
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      )}
-      {isConnected && (
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/logout" element={<LogoutPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </Layout>
-      )}
-    </>
+    <Suspense fallback={null}>
+      <Routes>
+        <Route
+          path="/"
+          element={createElement(
+            lazy(() => import('./components/pages/HomePage'))
+          )}
+        />
+        <Route
+          path="/restaurant/:restaurantId"
+          element={createElement(
+            lazy(() => import('./components/pages/RestaurantDetail'))
+          )}
+        />
+        <Route
+          path="/widget/:restaurantId"
+          element={createElement(
+            lazy(() => import('./components/Widget/Widget'))
+          )}
+        />
+        <Route
+          path="/login"
+          element={createElement(
+            lazy(() => import('./components/pages/LoginPage'))
+          )}
+        />
+        <Route
+          path="/logout"
+          element={createElement(
+            lazy(() => import('./components/pages/LogoutPage'))
+          )}
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Suspense>
   )
 }
 
