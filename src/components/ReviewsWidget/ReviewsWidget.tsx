@@ -1,7 +1,10 @@
 import { FunctionComponent } from 'react'
-interface ReviewsProps {}
+import { IRestaurant } from '../../mock/restaurants.mock'
+interface ReviewsProps {
+  restaurant: IRestaurant
+}
 
-const Reviews: FunctionComponent<ReviewsProps> = () => {
+const Reviews: FunctionComponent<ReviewsProps> = ({ restaurant }) => {
   return (
     <>
       <div className="w-4/6">
@@ -10,9 +13,8 @@ const Reviews: FunctionComponent<ReviewsProps> = () => {
             <div>
               <div>
                 <p className="text-xl font-medium text-gray-800 mt-4">
-                  Let us know why you are not
                   <span className="text-xl font-bold text-gray-800">
-                    Happy!
+                    {restaurant.name}
                   </span>
                 </p>
                 <p className="text-sm mt-4 text-gray-600">

@@ -23,7 +23,7 @@ export interface IRestaurant {
 export const RESTAURANT_MOCK: IRestaurant[] = [
   {
     id: 1,
-    name: 'Le Wok',
+    name: 'mathys',
     address: '1 rue de la paix',
     categories: 'chinois',
     location: {

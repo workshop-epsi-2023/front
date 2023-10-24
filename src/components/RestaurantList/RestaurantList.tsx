@@ -13,7 +13,7 @@ const RestaurantList: FunctionComponent<RestaurantListProps> = ({
     <div className="mx-auto container">
       <div className="flex flex-wrap items-center lg:justify-between justify-center">
         {restaurants.map((restaurant) => (
-          <RestaurantWidget restaurant={restaurant} />
+          <RestaurantWidget restaurant={restaurant} key={restaurant.name} />
         ))}
       </div>
     </div>
