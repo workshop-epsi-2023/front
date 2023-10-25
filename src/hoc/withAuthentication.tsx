@@ -6,7 +6,6 @@ import Layout from '../components/Layout/Layout'
 const WithAuthentication = (Component: ComponentType<any>) => {
   return () => {
     const { isConnected } = useAuthContext()
-    console.log('isConnected', isConnected)
     if (!isConnected) {
       return <Navigate to="/login" />
     }

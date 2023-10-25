@@ -6,14 +6,12 @@ interface RestaurantListProps {
   restaurants: IRestaurant[]
 }
 
-const RestaurantList: FunctionComponent<RestaurantListProps> = ({
-  restaurants
-}) => {
+const RestaurantList: FunctionComponent<RestaurantListProps> = ({ restaurants }) => {
   return (
     <div className="mx-auto container">
-      <div className="flex flex-wrap items-center lg:justify-between justify-center">
-        {restaurants.map((restaurant) => (
-          <RestaurantWidget restaurant={restaurant} key={restaurant.name} />
+      <div className="grid gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {restaurants.map((restaurant, index) => (
+          <RestaurantWidget restaurant={restaurant} key={`${restaurant.libelle}_${index}`} />
         ))}
       </div>
     </div>

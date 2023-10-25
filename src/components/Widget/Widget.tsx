@@ -1,29 +1,27 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import Reviews from '../ReviewsWidget/ReviewsWidget'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { RESTAURANT_MOCK } from '../../mock/restaurants.mock'
+import { Navigate, useParams } from 'react-router-dom'
+import { IRestaurant, RESTAURANT_MOCK } from '../../mock/restaurants.mock'
+import { API_URL } from '../../config/env'
 
 interface WidgetProps {}
 
 const Widget: FunctionComponent<WidgetProps> = () => {
+  const [restaurant, setRestaurant] = useState<IRestaurant | null>(null)
   const { restaurantId } = useParams()
-  const navigate = useNavigate()
 
-  console.log(restaurantId)
-  if (!restaurantId) {
-    navigate('/')
-  }
+  useEffect(() => {
+    fetch(API_URL + '/restaurants/' + restaurantId)
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        console.log(data)
+        setRestaurant(data)
+      })
+  }, [])
 
-  const restaurant = RESTAURANT_MOCK.find(
-    (restaurant) => restaurant.id.toString() === restaurantId
-  )
-
-  return (
-    <div className=" w-full h-screen grid place-items-center bg-gray-100">
-      {!restaurant && <Navigate to={'/'} />}
-      {restaurant && <Reviews restaurant={restaurant} />}
-    </div>
-  )
+  return <div className=" w-full h-screen grid place-items-center bg-gray-100">{restaurant && <Reviews restaurant={restaurant} />}</div>
 }
 
 export default Widget
