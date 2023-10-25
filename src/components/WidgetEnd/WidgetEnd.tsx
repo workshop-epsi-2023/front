@@ -6,7 +6,7 @@ interface WidgetEndProps {}
 const WidgetEnd: FunctionComponent<WidgetEndProps> = () => {
   return (
     <>
-      <div className="bg-gray-100 py-12">
+      <div className="bg-gray-100 py-12 h-screen grid place-items-center">
         <div className="lg:max-w-[356px] md:max-w-512px] max-w-[375px] mx-auto bg-white px-8 py-10 relative">
           <Link to="/">
             <svg className="absolute top-4 right-4" width={24} height={24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
