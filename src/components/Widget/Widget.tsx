@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 import Reviews from '../ReviewsWidget/ReviewsWidget'
-import { Navigate, useParams } from 'react-router-dom'
-import { IRestaurant, RESTAURANT_MOCK } from '../../mock/restaurants.mock'
+import { useParams } from 'react-router-dom'
+import { IRestaurant } from '../../mock/restaurants.mock'
 import { API_URL } from '../../config/env'
 
 interface WidgetProps {}

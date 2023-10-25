@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react'
 
 interface ReviewsQuestionProps {
   question: string
+  index: number
 }
 
 enum Response {
@@ -10,8 +11,8 @@ enum Response {
   DONT_KNOW = 'Je ne sais pas'
 }
 
-const ReviewsQuestion: FunctionComponent<ReviewsQuestionProps> = ({ question }) => {
-  const [state, setState] = useState<Response>()
+const ReviewsQuestion: FunctionComponent<ReviewsQuestionProps> = ({ question, index }) => {
+  const [state, setState] = useState<Response>(Response.DONT_KNOW)
 
   return (
     <section>
@@ -19,7 +20,7 @@ const ReviewsQuestion: FunctionComponent<ReviewsQuestionProps> = ({ question }) 
         <p className="text-sm mt-4 text-gray-600">{question}</p>
       </div>
       <div className="mt-4 flex gap-4">
-        <input type="text" value={state} className="hidden" name={question} />
+        <input type="text" value={state} className="hidden" required name={index.toString()} />
         {Object.values(Response).map((response, index) => (
           <button
             key={response}

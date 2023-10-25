@@ -10,7 +10,7 @@ const RestaurantWidget: FunctionComponent<RestaurantWidgetProps> = ({ restaurant
   return (
     <Link to={`/restaurant/${restaurant.id}`} className="shadow-md">
       <div>
-        <img src={'https://picsum.photos/20' + restaurant.id} className="w-full h-44 object-cover" />
+        <img src={'https://source.unsplash.com/random/900×700/?restaurant,' + restaurant.category} className="w-full h-44 object-cover" />
       </div>
       <div className="bg-white">
         <div className="flex items-center justify-between px-4 pt-4">

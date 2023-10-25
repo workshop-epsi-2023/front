@@ -4,6 +4,7 @@ import RestaurantWidget from '../RestaurantWidget/RestaurantWidget'
 import { IRestaurant } from '../../mock/restaurants.mock'
 import { Link, useParams } from 'react-router-dom'
 import { API_URL } from '../../config/env'
+import ReviewsList from '../ReviewsWidget/ReviewsList'
 interface RestaurantDetailProps {}
 
 const RestaurantDetail: FunctionComponent<RestaurantDetailProps> = () => {
@@ -29,6 +30,8 @@ const RestaurantDetail: FunctionComponent<RestaurantDetailProps> = () => {
           <Link className="m-4 p-2 bg-purple-500 text-white rounded" to={`/restaurant/${restaurant.id}/addComment`}>
             Notez moi
           </Link>
+
+          <ReviewsList restaurant={restaurant} />
         </>
       )}
       {!restaurant && <p>Restaurant not found</p>}
