@@ -10,7 +10,6 @@ interface ReviewCardProps {
 const ReviewCard: FunctionComponent<ReviewCardProps> = ({ comment, restaurant }) => {
   const date = new Date(comment.date)
 
-  console.log(date.getDate())
   return (
     <div className="w-full hover:shadow-lg shadow-none flex justify-center items-center flex-shrink-0  border rounded-md border-gray-200 h-full cursor-pointer">
       <div className="inline-flex flex-col space-y-1.5 items-start justify-end flex-1 h-full px-4 py-5">
