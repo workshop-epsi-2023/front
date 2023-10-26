@@ -1,14 +1,15 @@
-import { Component, FunctionComponent, ReactNode, createElement, useEffect, useState } from 'react'
-import { ROUTING_MOCK } from '../../mock/routing.mock'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { RESTAURANT_MOCK } from '../../mock/restaurants.mock'
+import { FunctionComponent, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useAuthContext } from '../../context/Auth/AuthProvider'
 import { useSearchContext } from '../../context/Search/SearchProvider'
+import { ROUTING_MOCK } from '../../mock/routing.mock'
 
 interface LayoutProps {
   children: any
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+  const { user } = useAuthContext()
   const { searchValue, search, isSearchable } = useSearchContext()
   const [show, setShow] = useState(false)
   const [profile, setProfile] = useState(false)
@@ -84,25 +85,23 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   </div>
                 </div>
                 <div className="w-full">
-                  {isSearchable && (
-                    <div className="flex justify-center mb-4 w-full px-6">
-                      <div className="relative w-full">
-                        <div className="text-gray-500 absolute ml-4 inset-0 m-auto w-4 h-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-search" width={16} height={16} viewBox="0 0 24 24" strokeWidth={1} stroke="#A0AEC0" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" />
-                            <circle cx={10} cy={10} r={7} />
-                            <line x1={21} y1={21} x2={15} y2={15} />
-                          </svg>
-                        </div>
-                        <input onChange={search} value={searchValue} className="bg-gray-100 focus:outline-none rounded w-full text-sm text-gray-500 bg-gray-100 pl-10 py-2" type="text" placeholder="Search" />
+                  <div className="m-6">
+                    <Link to={'/logout'} className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mt-2">
+                      <div className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width={20} height={20} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" />
+                          <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                          <path d="M7 12h14l-3 -3m0 6l3 -3" />
+                        </svg>
+                        <span className="text-sm ml-2">Déconnexion</span>
                       </div>
-                    </div>
-                  )}
+                    </Link>
+                  </div>
                   <div className="border-t border-gray-300">
                     <div className="w-full flex items-center justify-between px-6 pt-1">
                       <div className="flex items-center">
                         <img alt="profile-pic" src="https://thispersondoesnotexist.com/" className="w-8 h-8 rounded-md" />
-                        <p className="md:text-xl text-gray-800 text-base leading-4 ml-2">Admin</p>
+                        <p className="md:text-xl text-gray-800 text-base leading-4 ml-2">{user?.pseudo}</p>
                       </div>
                     </div>
                   </div>
@@ -115,8 +114,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
           <div className="w-full">
             {/* Navigation starts */}
             <nav className="h-16 flex items-center lg:items-stretch justify-end lg:justify-between bg-white shadow relative z-0">
-              <div className="hidden lg:flex w-full pr-6">
-                <div className="w-1/2 h-full hidden lg:flex items-center pl-6 pr-24">
+              <div className="flex w-full pr-6">
+                <div className="w-full lg:w-1/2 h-full flex items-center pl-6 pr-24">
                   {isSearchable && (
                     <div className="relative w-full">
                       <div className="text-gray-500 absolute ml-4 inset-0 m-auto w-4 h-4">
@@ -143,7 +142,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                                   <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
                                   <path d="M7 12h14l-3 -3m0 6l3 -3" />
                                 </svg>
-                                <span className="text-sm ml-2">Sign out</span>
+                                <span className="text-sm ml-2">Déconnexion</span>
                               </div>
                             </Link>
                           </ul>
@@ -153,7 +152,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                           <div className="w-2 h-2 rounded-full bg-green-400 border border-white absolute inset-0 mb-0 mr-0 m-auto" />
                         </div>
                       </div>
-                      <p className="text-gray-800 text-sm mx-3">Admin</p>
+                      <p className="text-gray-800 text-sm mx-3">{user?.pseudo}</p>
                       <div className="cursor-pointer text-gray-600">
                         <svg aria-haspopup="true" xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-chevron-down" width={20} height={20} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" />

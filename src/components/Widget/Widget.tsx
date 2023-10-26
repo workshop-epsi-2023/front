@@ -1,8 +1,8 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import Reviews from '../ReviewsWidget/ReviewsWidget'
 import { useParams } from 'react-router-dom'
-import { IRestaurant } from '../../mock/restaurants.mock'
 import { API_URL } from '../../config/env'
+import { IRestaurant } from '../../mock/restaurants.mock'
+import Reviews from '../ReviewsWidget/ReviewsWidget'
 
 interface WidgetProps {}
 
@@ -16,12 +16,11 @@ const Widget: FunctionComponent<WidgetProps> = () => {
         return response.json()
       })
       .then((data) => {
-        console.log(data)
         setRestaurant(data)
       })
   }, [])
 
-  return <div className=" w-full h-screen grid place-items-center bg-gray-100">{restaurant && <Reviews restaurant={restaurant} />}</div>
+  return <div className=" w-screen grid place-items-center bg-gray-100">{restaurant && <Reviews restaurant={restaurant} />}</div>
 }
 
 export default Widget

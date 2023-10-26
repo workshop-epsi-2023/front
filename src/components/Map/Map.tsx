@@ -1,6 +1,6 @@
-import { FunctionComponent, useEffect, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { MAPBOX_TOKEN } from '../../config/env'
 import { IRestaurant } from '../../mock/restaurants.mock'
 
@@ -38,18 +38,21 @@ const Map: FunctionComponent<MapProps> = ({ restaurants }) => {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: restaurants.map((restaurant) => ({
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [restaurant.longitude, restaurant.latitude]
-            },
-            properties: {
-              id: restaurant.id,
-              libelle: restaurant.libelle,
-              address: restaurant.address
+          features: restaurants.map((restaurant) => {
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [restaurant.longitude, restaurant.latitude]
+              },
+              properties: {
+                id: restaurant.id,
+                libelle: restaurant.libelle,
+                address: restaurant.address,
+                rating: Math.round(restaurant.rating)
+              }
             }
-          }))
+          })
         }
       })
       map.addLayer({
@@ -57,8 +60,10 @@ const Map: FunctionComponent<MapProps> = ({ restaurants }) => {
         type: 'circle',
         source: 'restaurants',
         paint: {
+          'circle-stroke-width': 1,
+          'circle-stroke-color': 'black',
           'circle-radius': 4,
-          'circle-color': '#CB2727'
+          'circle-color': ['case', ['==', ['get', 'rating'], 0], 'black', ['==', ['get', 'rating'], 1], 'red', ['==', ['get', 'rating'], 2], 'orange', ['==', ['get', 'rating'], 3], 'yellow', ['==', ['get', 'rating'], 4], 'lightgreen', ['==', ['get', 'rating'], 5], 'green', 'blue']
         }
       })
     }
@@ -70,18 +75,21 @@ const Map: FunctionComponent<MapProps> = ({ restaurants }) => {
       if (source) {
         source.setData({
           type: 'FeatureCollection',
-          features: restaurants.map((restaurant) => ({
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [restaurant.longitude, restaurant.latitude]
-            },
-            properties: {
-              id: restaurant.id,
-              libelle: restaurant.libelle,
-              address: restaurant.address
+          features: restaurants.map((restaurant) => {
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [restaurant.longitude, restaurant.latitude]
+              },
+              properties: {
+                id: restaurant.id,
+                libelle: restaurant.libelle,
+                address: restaurant.address,
+                rating: Math.round(restaurant.rating)
+              }
             }
-          }))
+          })
         })
       }
     }

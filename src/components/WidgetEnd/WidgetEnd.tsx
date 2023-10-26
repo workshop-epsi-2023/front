@@ -1,9 +1,10 @@
 import { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 interface WidgetEndProps {}
 
 const WidgetEnd: FunctionComponent<WidgetEndProps> = () => {
+  const { restaurantId } = useParams()
   return (
     <>
       <div className="bg-gray-100 py-12 h-screen grid place-items-center">
@@ -44,12 +45,11 @@ const WidgetEnd: FunctionComponent<WidgetEndProps> = () => {
               </defs>
             </svg>
             <p className="text-xl text-gray-800 mt-4 font-medium">
-              Thank you for your
-              <span className="text-gray-800 font-bold">Feedback!</span>
+              Merci pour votre <span className="text-gray-800 font-bold">FeedBack !</span>
             </p>
-            <p className="text-sm text-gray-600 mt-4">You’re feedback have been sent!</p>
-            <Link to="/">
-              <button className="bg-indigo-700 text-sm text-white lg:max-w-[292px] w-full text-center py-3 rounded font-medium mt-6 hover:bg-indigo-600 transition duration-300 ease-in-out">Go Back</button>
+            <p className="text-sm text-gray-600 mt-4">Nous avons bien récupéré votre avis</p>
+            <Link to={`/restaurant/${restaurantId}`}>
+              <button className="bg-indigo-700 text-sm text-white lg:max-w-[292px] w-full text-center py-3 rounded font-medium mt-6 hover:bg-indigo-600 transition duration-300 ease-in-out">Retouner au restaurant</button>
             </Link>
           </div>
         </div>

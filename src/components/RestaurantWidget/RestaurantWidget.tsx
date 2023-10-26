@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
-import { IRestaurant } from '../../mock/restaurants.mock'
 import { Link } from 'react-router-dom'
+import { IRestaurant } from '../../mock/restaurants.mock'
 
 interface RestaurantWidgetProps {
   restaurant: IRestaurant
@@ -20,9 +20,36 @@ const RestaurantWidget: FunctionComponent<RestaurantWidgetProps> = ({ restaurant
               <path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3l-5 3v-14a2 2 0 0 1 2 -2" />
             </svg>
           </div>
-          <div className="bg-yellow-200 py-1.5 px-6 rounded-full">
-            <p className="text-xs text-yellow-500">{restaurant.rating}</p>
-          </div>
+          {Math.round(restaurant.rating) === 0 && (
+            <div className="bg-black  py-1.5 px-6 rounded-full">
+              <p className="text-xs text-white">{restaurant.rating}</p>
+            </div>
+          )}
+          {Math.round(restaurant.rating) === 1 && (
+            <div className="bg-red-200 py-1.5 px-6 rounded-full">
+              <p className="text-xs text-red-500">{restaurant.rating}</p>
+            </div>
+          )}
+          {Math.round(restaurant.rating) === 2 && (
+            <div className="bg-orange-200 py-1.5 px-6 rounded-full">
+              <p className="text-xs text-orange-500">{restaurant.rating}</p>
+            </div>
+          )}
+          {Math.round(restaurant.rating) === 3 && (
+            <div className="bg-yellow-200 py-1.5 px-6 rounded-full">
+              <p className="text-xs text-yellow-500">{restaurant.rating}</p>
+            </div>
+          )}
+          {Math.round(restaurant.rating) === 4 && (
+            <div className="bg-lime-200 py-1.5 px-6 rounded-full">
+              <p className="text-xs text-lime-500">{restaurant.rating}</p>
+            </div>
+          )}
+          {Math.round(restaurant.rating) === 5 && (
+            <div className="bg-green-200 py-1.5 px-6 rounded-full">
+              <p className="text-xs text-green-500">{restaurant.rating}</p>
+            </div>
+          )}
         </div>
         <div className="p-4">
           <div className="flex items-center">

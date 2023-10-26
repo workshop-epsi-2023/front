@@ -1,3 +1,5 @@
+import { CommentInput } from '../components/ReviewsWidget/ReviewsWidget'
+
 type mariaDbId = number
 
 export interface IReview {
@@ -17,4 +19,9 @@ export interface IRestaurant {
   reviews?: IReview[]
   latitude: number
   longitude: number
+  comments: {
+    page_total: number
+    results: CommentInput[]
+    total: number
+  }
 }

@@ -5,7 +5,7 @@ interface ReviewsQuestionProps {
   index: number
 }
 
-enum Response {
+export enum Response {
   YES = 'Oui',
   NO = 'Non',
   DONT_KNOW = 'Je ne sais pas'

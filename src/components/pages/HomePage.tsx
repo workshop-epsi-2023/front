@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import WithAuthentication from '../../hoc/withAuthentication'
-import Map from '../Map/Map'
-import { IRestaurant } from '../../mock/restaurants.mock'
-import RestaurantList from '../RestaurantList/RestaurantList'
 import { API_URL } from '../../config/env'
 import { useSearchContext } from '../../context/Search/SearchProvider'
+import WithAuthentication from '../../hoc/withAuthentication'
+import { IRestaurant } from '../../mock/restaurants.mock'
+import Map from '../Map/Map'
+import RestaurantList from '../RestaurantList/RestaurantList'
 
 interface HomePageProps {
   searchValue: string
@@ -22,14 +22,12 @@ const HomePage: FunctionComponent<HomePageProps> = ({ searchValue }) => {
   }, [])
 
   useEffect(() => {
-    const url = API_URL + '/restaurants?limit=50&search=' + searchValue
-    console.log(url)
+    const url = API_URL + '/restaurants?limit=100&search=' + searchValue
     fetch(url)
       .then((response) => {
         return response.json()
       })
       .then((data) => {
-        console.log(data)
         setRestaurants(data.results)
       })
   }, [searchValue])
